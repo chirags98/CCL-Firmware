@@ -1,0 +1,8 @@
+#ifndef ADC_H_
+#define ADC_H_
+
+void adc_pin_config (void);
+unsigned int read_adc(void);
+void adc_config(void);
+
+#endif /* ADC_H_ */
