@@ -51,3 +51,14 @@ unsigned int read_adc_channel(char channel)
 	else
 		return 22;				//error
 }
+
+unsigned int avg_read_adc_channel(char channel, char i)
+{
+	float val = 0;
+	for(int j = 1;j<=i;j++)
+	{
+		val = val + read_adc_channel(channel)/i;
+	}
+	
+	return val;
+}

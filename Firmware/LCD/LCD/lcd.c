@@ -110,10 +110,10 @@ static void lcd_init()
 	_delay_ms(1);
 
 	lcd_wr_command(0x28);			//LCD 4-bit mode and 2 lines.
-	lcd_wr_command(0x01);
-	lcd_wr_command(0x06);
-	lcd_wr_command(0x0E);
-	lcd_wr_command(0x80);
+	lcd_wr_command(0x01);			//Clear Display
+	//lcd_wr_command(0x06);			//Increment cursor (Shift to right)
+	lcd_wr_command(0x0C);			//Display on, cursor off
+	lcd_wr_command(0x80);			//Force cursor to begigning of first line
 }
 
 /*
