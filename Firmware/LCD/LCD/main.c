@@ -32,15 +32,42 @@ int main(void)
 	port_config();
 	init_devices();
 	
-	ADMUX=0x41;    //Channel 1
-	int i = 0;
+	float voltage = 0;
+	float current = 0;
+	float power = 0;
+	float offset = 0;
+	
+	lcd_string2(1, 7, "CCL");
+	_delay_ms(300);
+	
+	if (PORTB5==1)
+	{
+		lcd_string2(2,1,"Supply Connected");
+	}
+	
+	else
+	{
+		lcd_string2(2,2,"12v Supply NC");
+		offset = 28.2;
+	}
+	
+	_delay_ms(600);
+	lcd_clear();
 	while (1)
 	{
-		//unsigned int val = read_adc();
-		//val = val*5/1023*1000;
-		//lcd_print(1,1,val,5);
-		lcd_print(2,1,i,3);
-		i++;
-		_delay_ms(1000);
+		current = read_adc_channel(0);
+		current = current*1.953+5.7 + offset;
+		lcd_print(1,1,current,4);
+		lcd_string2(1,5,"mA  ");
+				
+		voltage = read_adc_channel(1);
+		voltage = voltage*0.0293;
+		lcd_print(1,10,voltage,4);
+		lcd_string2(1,14,"V  ");
+		
+		power = voltage*current;
+		lcd_print(2,1,power,5);
+		lcd_string2(2,6,"mW");
+		_delay_ms(300);
 	}
 }

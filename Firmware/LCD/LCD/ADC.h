@@ -4,5 +4,6 @@
 void adc_pin_config (void);
 unsigned int read_adc(void);
 void adc_config(void);
+unsigned int read_adc_channel(char);
 
 #endif /* ADC_H_ */
