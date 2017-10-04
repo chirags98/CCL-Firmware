@@ -70,18 +70,11 @@ int main(void)
 		lcd_print(2,1,power,5);
 		lcd_string2(2,6,"mW");
 		
-		/*	
-		gate_voltage = 0;	
-		for (int i = 1; i<=5; i++)
-		{
-			gate_voltage = gate_voltage + read_adc_channel(2)/5;
-		}
-				
-		gate_voltage = gate_voltage*2500;
-		lcd_print(2,11,gate_voltage,4);
-		lcd_string2(2,15,"mV");
-		*/
 		
+		float gate_voltage = avg_read_adc_channel(2, 5)*7.5;
+		lcd_print(2,11,gate_voltage,4);
+		lcd_string2(1,15,"mV");
+				
 		_delay_ms(10);
 	}
 }
