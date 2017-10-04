@@ -9,14 +9,13 @@
 #include "LCD.h"
 #include <util/delay.h>
 #include <avr/interrupt.h>
-//#include <avr/sleep.h>
+#include <avr/sleep.h>
 
 volatile unsigned int adc_val[3];
 volatile char flag = 0;
 
-extern volatile int i;
+extern volatile unsigned int i;
 
-//ADC pin configuration
 void adc_pin_config (void)
 {
 	DDRC = 0x00; //set PORTF direction as input
@@ -25,21 +24,23 @@ void adc_pin_config (void)
 
 void adc_config(void)
 {
-	//ADCSRA=0x87;	//1 --- 0 111 ADC Enable, ADC Interrupt disable, ADC Prescaler=128
 	ADCSRA=0x8F;	//1 --- 1 111 ADC Enable, ADC Interrupt enable, ADC Prescaler=128
 	SMCR |= 0x02;	//---- 001 0 ADC Noise Reduction mode, sleep enable/disable
 }
 
 void read_adc()
 {
-	//ADCSRA|=0x40; //ADSC: ADC Start Conversion: In Single Conversion mode, write this bit to one to start each conversion.
-	//while((ADCSRA & 0x10)==0); //ADIF: ADC Interrupt Flag: This bit is set when an ADC conversion completes and the Data Registers are updated.
-	//ADCSRA|=0x10;	//ADIF is cleared by writing a logical one to the flag.
-		
-	//flag = 1;
+	/*
 	SMCR |= 0x01;		//ADC Start Conversion
-	//while(flag==1);		//ADIF: ADC Interrupt Flag: This bit is set when an ADC conversion completes and the Data Registers are updated.
-	//SMCR &= 0x02;
+	SMCR &= 0x02;
+	*/			//Does not work
+		
+	set_sleep_mode (SLEEP_MODE_ADC);
+	sleep_enable();
+	// Enter Sleep Mode To Trigger ADC Measurement
+	// CPU Will Wake Up From ADC Interrupt
+	sleep_cpu();
+	sleep_disable();
 }
 
 void update_adc_channel(char channel)
@@ -73,16 +74,13 @@ ISR(ADC_vect)
 	unsigned char channel = ADMUX & 0x0F;	//Read channel number by masking upper nibble
 	
 	//ADIF is automatically cleared by writing a logical one to the flag.
-	ADCSRA|=0x10;	//ADIF is cleared by writing a logical one to the flag.
 	//Read ADC value
-	volatile unsigned char low = ADCL;
-	volatile unsigned char high = ADCH;
+	unsigned char low = ADCL;
+	unsigned char high = ADCH;
 	
 	adc_val[channel] = 0x03 && high;
 	adc_val[channel] = adc_val[channel]<<8;
 	adc_val[channel] = 256*high + low;
-	//adc_val[channel] = 500;
 	
-	i++;
-	flag=0;		//conversion complete
+	i = adc_val[channel];
 }
