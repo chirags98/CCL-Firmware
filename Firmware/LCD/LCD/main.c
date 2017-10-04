@@ -13,6 +13,8 @@
 #include "lcd.h"
 #include "ADC.h"
 
+volatile int i =0;
+
 void port_config (void)
 {
 	lcd_port_config();
@@ -35,7 +37,7 @@ int main(void)
 	float voltage = 0;
 	float current = 0;
 	float power = 0;
-	//float gate_voltage = 0;
+	float gate_voltage = 0;
 	float offset = 0;
 	
 	lcd_string2(1, 7, "CCL");
@@ -54,6 +56,7 @@ int main(void)
 	
 	_delay_ms(600);
 	lcd_clear();
+	
 	while (1)
 	{
 		current = avg_read_adc_channel(0, 10);
@@ -70,11 +73,14 @@ int main(void)
 		lcd_print(2,1,power,5);
 		lcd_string2(2,6,"mW");
 		
-		
-		float gate_voltage = avg_read_adc_channel(2, 5)*7.5;
+		/*
+		gate_voltage = avg_read_adc_channel(2, 5)*7.5;
 		lcd_print(2,11,gate_voltage,4);
-		lcd_string2(1,15,"mV");
+		lcd_string2(2,15,"mV");
+		*/
 				
 		_delay_ms(10);
+		//i++;
+		lcd_print(2,11,i,3);
 	}
 }
