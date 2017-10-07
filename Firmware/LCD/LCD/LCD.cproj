@@ -137,6 +137,12 @@
     <Compile Include="ADC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CCL.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CCL.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lcd.c">
       <SubType>compile</SubType>
     </Compile>

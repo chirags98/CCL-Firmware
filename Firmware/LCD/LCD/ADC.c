@@ -12,9 +12,7 @@
 #include <avr/sleep.h>
 
 volatile unsigned int adc_val[3];
-volatile char flag = 0;
-
-extern volatile unsigned int i;
+//volatile char flag = 0;
 
 void adc_pin_config (void)
 {
@@ -81,6 +79,4 @@ ISR(ADC_vect)
 	adc_val[channel] = 0x03 && high;
 	adc_val[channel] = adc_val[channel]<<8;
 	adc_val[channel] = 256*high + low;
-	
-	i = adc_val[channel];
 }
