@@ -63,7 +63,7 @@ int main(void)
 		print_current(1,1);
 		print_voltage(1,10);
 		print_power(2,1);
-		print_gate_voltage(2,11);
+		print_gate_voltage(2,10);
 	}
 	else
 	{

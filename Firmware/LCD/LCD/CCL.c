@@ -48,26 +48,26 @@ void update_gate_voltage()
 
 void print_current(char row, char col)
 {
-	lcd_print(row,col,current,4);					//Least count = 1.95mv
-	lcd_string2(row,col+4,"mA  ");
+	lcd_print2(row,col,current,4, "mA");					//Least count = 1.95mA
+	//lcd_string2(row,col+4,"mA  ");
 }
 
 void print_voltage(char row, char col)
 {
-	lcd_print(row,col,voltage,5);					//Least count = 29.23mv
-	lcd_string2(row,col+5,"mV");
+	lcd_print2(row,col,voltage,5, "mV");					//Least count = 29.29mv
+	//lcd_string2(row,col+5,"mV");
 }
 
 void print_power(char row, char col)
 {
-	lcd_print(row,col,power,5);
-	lcd_string2(row,col+5,"mW");
+	lcd_print2(row,col,power,5, "mW");
+	//lcd_string2(row,col+5,"mW");
 }
 
 void print_gate_voltage(char row, char col)
 {
-	lcd_print(row,col,gate_voltage,4);				//Least count = 7.5mv
-	lcd_string2(row,col+4,"mV");
+	lcd_print2(row,col,gate_voltage,4, "mV");				//Least count = 7.5mv
+	//lcd_string2(row,col+4,"mV");
 }
 
 char check_thresholds()

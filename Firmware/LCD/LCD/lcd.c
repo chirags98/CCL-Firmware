@@ -284,9 +284,11 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		lcd_cursor(row,coloumn);
 	}
+	
 	if(digits==5 || flag==1)
 	{
 		million=value/10000+48;
+		if(million != '0')
 		lcd_wr_char(million);
 		flag=1;
 	}
@@ -294,6 +296,7 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/1000;
 		thousand = temp%10 + 48;
+		if(thousand != '0')
 		lcd_wr_char(thousand);
 		flag=1;
 	}
@@ -301,6 +304,7 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/100;
 		hundred = temp%10 + 48;
+		if(hundred != '0')
 		lcd_wr_char(hundred);
 		flag=1;
 	}
@@ -308,12 +312,14 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/10;
 		tens = temp%10 + 48;
+		if(tens != '0')
 		lcd_wr_char(tens);
 		flag=1;
 	}
 	if(digits==1 || flag==1)
 	{
 		unit = value%10 + 48;
+		if(unit != '0')
 		lcd_wr_char(unit);
 	}
 	if(digits>5)
@@ -321,6 +327,92 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 		lcd_wr_char('E');
 	}
 	
+}
+
+void lcd_print2(char row, char coloumn, unsigned int value, int digits, char* str)
+{
+	unsigned char flag=0;
+	char count = 0;
+	
+	if(row==0||coloumn==0)
+	{
+		lcd_home();
+	}
+	else
+	{
+		lcd_cursor(row,coloumn);
+	}
+	
+	if(digits==5 || flag==1)
+	{
+		million=value/10000+48;
+		if(million != '0')
+		{
+			lcd_wr_char(million);
+			count++;	
+		}
+		flag=1;
+	}
+	if(digits==4 || flag==1)
+	{
+		temp = value/1000;
+		thousand = temp%10 + 48;
+		if(thousand != '0' || count != 0)
+		{
+			lcd_wr_char(thousand);
+			count++;
+		}
+		flag=1;
+	}
+	if(digits==3 || flag==1)
+	{
+		temp = value/100;
+		hundred = temp%10 + 48;
+		if(hundred != '0' || count != 0)
+		{
+			lcd_wr_char(hundred);
+			count++;
+		}
+		flag=1;
+	}
+	if(digits==2 || flag==1)
+	{
+		temp = value/10;
+		tens = temp%10 + 48;
+		if(tens != '0' || count != 0)
+		{
+			lcd_wr_char(tens);
+			count++;
+		}
+		flag=1;
+	}
+	if(digits==1 || flag==1)
+	{
+		unit = value%10 + 48;
+		lcd_wr_char(unit);
+		count++;
+	}
+	if(digits>5)
+	{
+		lcd_wr_char('E');
+	}
+	
+	while(*str != '\0')
+	{
+		lcd_wr_char(*str);
+		count++;
+		digits++;
+		str++;		
+	}
+	
+	if(count<digits)
+	{
+		while(count != digits)
+		{
+			lcd_wr_char(32);
+			count++;
+		}	
+	}	
 }
 
 /*

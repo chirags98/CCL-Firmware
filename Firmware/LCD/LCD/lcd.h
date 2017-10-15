@@ -15,6 +15,7 @@ void lcd_string(char*);
 void lcd_string2(char, char, char*);
 void lcd_clear(void);
 void lcd_print(char, char , unsigned int , int);
+void lcd_print2(char, char , unsigned int , int, char*);
 void lcd_cursor(char,char);
 void lcd_home(void);
 
