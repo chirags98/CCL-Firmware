@@ -58,10 +58,10 @@ unsigned int avg_read_adc_channel(unsigned char channel, unsigned char i)
 	for(int j = 1;j<=i;j++)
 	{
 		update_adc_channel(channel);
-		val = val + adc_val[channel]/i;
+		val = val + adc_val[channel];
 	}
 	
-	adc_val[channel] = val;
+	adc_val[channel] = val/i;
 	
 	return adc_val[channel];
 }
