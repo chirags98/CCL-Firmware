@@ -58,7 +58,8 @@ int main(void)
 		update_power();
 		update_gate_voltage();
 	
-	if(check_thresholds()==0)	
+	//if(check_thresholds()==0)	
+	if(1)	
 	{	
 		print_current(1,1);
 		print_voltage(1,10);
