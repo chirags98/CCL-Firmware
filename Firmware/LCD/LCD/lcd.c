@@ -273,6 +273,7 @@ void lcd_cursor (char row, char column)
 * Logic: 
 * Example Call: lcd_string("hello")
 */
+//0020
 void lcd_print(char row, char coloumn, unsigned int value, int digits)
 {
 	unsigned char flag=0;
@@ -288,7 +289,6 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	if(digits==5 || flag==1)
 	{
 		million=value/10000+48;
-		//if(million != '0')
 		lcd_wr_char(million);
 		flag=1;
 	}
@@ -296,7 +296,6 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/1000;
 		thousand = temp%10 + 48;
-		//if(thousand != '0')
 		lcd_wr_char(thousand);
 		flag=1;
 	}
@@ -304,7 +303,6 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/100;
 		hundred = temp%10 + 48;
-		//if(hundred != '0')
 		lcd_wr_char(hundred);
 		flag=1;
 	}
@@ -312,14 +310,12 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	{
 		temp = value/10;
 		tens = temp%10 + 48;
-		//if(tens != '0')
 		lcd_wr_char(tens);
 		flag=1;
 	}
 	if(digits==1 || flag==1)
 	{
 		unit = value%10 + 48;
-		//if(unit != '0')
 		lcd_wr_char(unit);
 	}
 	if(digits>5)
@@ -328,6 +324,7 @@ void lcd_print(char row, char coloumn, unsigned int value, int digits)
 	}
 }
 
+//20mA
 void lcd_print2(char row, char coloumn, unsigned int value, int digits, char* str)
 {
 	unsigned char flag=0;
@@ -356,7 +353,7 @@ void lcd_print2(char row, char coloumn, unsigned int value, int digits, char* st
 	{
 		temp = value/1000;
 		thousand = temp%10 + 48;
-		if(thousand != '0' || count != 0)
+		if(thousand != '0' || count != 0)	//If any non zero value has already been printed
 		{
 			lcd_wr_char(thousand);
 			count++;
@@ -414,9 +411,12 @@ void lcd_print2(char row, char coloumn, unsigned int value, int digits, char* st
 	}	
 }
 
+//20
 void lcd_print3(char row, char coloumn, unsigned int value, int digits)
 {
 	unsigned char flag=0;
+	char count = 0;
+	
 	if(row==0||coloumn==0)
 	{
 		lcd_home();
@@ -430,43 +430,81 @@ void lcd_print3(char row, char coloumn, unsigned int value, int digits)
 	{
 		million=value/10000+48;
 		if(million != '0')
-		lcd_wr_char(million);
+		{
+			lcd_wr_char(million);
+			count++;
+		}
 		flag=1;
 	}
 	if(digits==4 || flag==1)
 	{
 		temp = value/1000;
 		thousand = temp%10 + 48;
-		if(thousand != '0')
-		lcd_wr_char(thousand);
+		if(thousand != '0' || count != 0)	//If any non zero value has already been printed
+		{
+			lcd_wr_char(thousand);
+			count++;
+		}
 		flag=1;
 	}
 	if(digits==3 || flag==1)
 	{
 		temp = value/100;
 		hundred = temp%10 + 48;
-		if(hundred != '0')
-		lcd_wr_char(hundred);
+		if(hundred != '0' || count != 0)
+		{
+			lcd_wr_char(hundred);
+			count++;
+		}
 		flag=1;
 	}
 	if(digits==2 || flag==1)
 	{
 		temp = value/10;
 		tens = temp%10 + 48;
-		if(tens != '0')
-		lcd_wr_char(tens);
+		if(tens != '0' || count != 0)
+		{
+			lcd_wr_char(tens);
+			count++;
+		}
 		flag=1;
 	}
 	if(digits==1 || flag==1)
 	{
 		unit = value%10 + 48;
-		if(unit != '0')
 		lcd_wr_char(unit);
+		count++;
 	}
 	if(digits>5)
 	{
 		lcd_wr_char('E');
 	}
+}
+
+//27.345A //27mA ...
+void lcd_print4(char row, char col, float value, char* str1, char* str2)
+{
+	if (value<1000)
+	{
+		lcd_print2(row,col,value,4, str1);
+	}
+	
+	else if (value>=1000 && value < 10000)
+	{
+		lcd_print3(row, col, value/1000, 1);
+		lcd_string2(row, col+1, ".");
+		lcd_print(row, col+2, (int)value%1000, 3);		//Least count = 1.95mA
+		lcd_string(str2);
+		lcd_string(" ");
+	}
+	
+	else if (value>=10000)
+	{
+		lcd_print3(row, col, value/1000, 2);
+		lcd_string2(row, col+2, ".");
+		lcd_print(row, col+3, (int)value%1000, 3);		//Least count = 1.95mA
+		lcd_string(str2);
+	}	
 }
 
 /*

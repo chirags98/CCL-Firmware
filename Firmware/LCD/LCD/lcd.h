@@ -17,6 +17,7 @@ void lcd_clear(void);
 void lcd_print(char, char , unsigned int , int);
 void lcd_print2(char, char , unsigned int , int, char*);
 void lcd_print3(char, char , unsigned int , int);
+void lcd_print4(char, char, float, char*, char*);
 void lcd_cursor(char,char);
 void lcd_home(void);
 
