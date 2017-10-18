@@ -43,67 +43,27 @@ void update_power()
 
 void update_gate_voltage()
 {
-	gate_voltage = avg_read_adc_channel(2, 10)*7.5;		//0-7.68V	
+	gate_voltage = avg_read_adc_channel(2, 10)*10.74;		//0-11V	
 }
 
 void print_current(char row, char col)
 {
 	lcd_print4(row, col, current, "mA", "A");
-	
-	/*
-	if (current<1000)
-	lcd_print2(row,col,current,4, "mA");					//Least count = 1.95mA
-	
-	else if (current>=1000)
-	{
-		lcd_print3(row, col, current/1000, 1);
-		lcd_string2(row, col+1, ".");
-		lcd_print(row, col+2, (int)current%1000, 3);		//Least count = 1.95mA
-		lcd_string("A");
-	}
-	*/
-	
-	//lcd_print2(row,col,current,4, "mA");					//Least count = 1.95mA
 }
 
 void print_voltage(char row, char col)
 {
 	lcd_print4(row, col, voltage, "mV", "V");
-	
-	/*
-	if (voltage<1000)
-	lcd_print2(row,col,voltage,4, "mV");
-	
-	else if (voltage>=1000 && voltage < 10000)
-	{
-		lcd_print3(row, col, voltage/1000, 1);
-		lcd_string2(row, col+1, ".");
-		lcd_print(row, col+2, (int)voltage%1000, 3);		//Least count = 1.95mA
-		lcd_string("V ");
-	}
-	
-	else if (voltage>=10000)
-	{
-		lcd_print3(row, col, voltage/1000, 2);
-		lcd_string2(row, col+2, ".");
-		lcd_print(row, col+3, (int)voltage%1000, 3);		//Least count = 1.95mA
-		lcd_string("V");
-	}
-	*/
-	
-	//lcd_print2(row,col,voltage,5, "mV");					//Least count = 29.29mv
 }
 
 void print_power(char row, char col)
 {
 	lcd_print4(row, col, power, "mW", "W");
-	//lcd_print2(row,col,power,5, "mW");
 }
 
 void print_gate_voltage(char row, char col)
 {
 	lcd_print4(row, col, gate_voltage, "mV", "V");
-	//lcd_print2(row,col,gate_voltage,4, "mV");				//Least count = 7.5mv
 }
 
 char check_thresholds()

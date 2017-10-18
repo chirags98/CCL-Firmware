@@ -38,14 +38,16 @@ int main(void)
 	
 	if (PINB & 0x20)
 	{
+		extern float offset;
 		lcd_string2(2,1,"Supply Connected");
+		offset = 4;
 	}
 	
 	else
 	{
 		extern float offset;
 		lcd_string2(2,2,"12v Supply NC");
-		offset = 26.2;
+		offset = 31.2;
 	}
 	
 	_delay_ms(600);
