@@ -18,6 +18,7 @@ void print_voltage(char, char);
 void print_current(char, char);
 void print_power(char, char);
 void print_gate_voltage(char, char);
+void print_mos_power(char, char);
 
 char check_thresholds();
 

@@ -40,6 +40,7 @@ C_SRCS +=  \
 ../ADC.c \
 ../CCL.c \
 ../lcd.c \
+../lcd2.c \
 ../main.c
 
 
@@ -53,24 +54,28 @@ OBJS +=  \
 ADC.o \
 CCL.o \
 lcd.o \
+lcd2.o \
 main.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
 CCL.o \
 lcd.o \
+lcd2.o \
 main.o
 
 C_DEPS +=  \
 ADC.d \
 CCL.d \
 lcd.d \
+lcd2.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 CCL.d \
 lcd.d \
+lcd2.d \
 main.d
 
 OUTPUT_FILE_PATH +=LCD.elf
@@ -87,6 +92,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

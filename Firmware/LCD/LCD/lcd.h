@@ -11,13 +11,11 @@
 
 void lcd_start(void);
 void lcd_port_config (void);
+void lcd_wr_char(char);
 void lcd_string(char*);
 void lcd_string2(char, char, char*);
 void lcd_clear(void);
 void lcd_print(char, char , unsigned int , int);
-void lcd_print2(char, char , unsigned int , int, char*);
-void lcd_print3(char, char , unsigned int , int);
-void lcd_print4(char, char, float, char*, char*);
 void lcd_cursor(char,char);
 void lcd_home(void);
 
