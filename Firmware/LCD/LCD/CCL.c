@@ -81,29 +81,31 @@ void print_mos_power(char row, char col)
 
 char check_thresholds()
 {
-	static char val = 0;
+	static char val = 0;	//To create a schmitt trigger like mechanism for power, voltage and current.
 	
+	//If less than threshold
 	if (current<current_thresh && voltage<v_thresh && power_mos<power_thresh)
 	{
-		if (val == 1)
+		if (val == 1)	//If levels during last check was more than threshold - reset threshold to nominal values
 		{
 			power_thresh += 500;
 			v_thresh += 2000;
 			current_thresh += 100;
-			val = 0;
+			val = 0;	//Values have been reset
 		}
 		
 		return 0;	//All okay
 	}
 	
+	//If greater than threshold
 	else
 	{	
-		if (val == 0)
+		if (val == 0)	//If values are set at the nominal value decrease the values
 		{
 			power_thresh -= 500;
 			v_thresh -= 2000;
 			current_thresh -= 100;
-			val = 1;
+			val = 1;	//Values have been decreased
 		}
 		
 		if (power_mos>power_thresh)

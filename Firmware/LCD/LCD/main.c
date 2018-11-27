@@ -71,9 +71,18 @@ int main(void)
 		print_mos_power(2,10);
 	}
 	else							//If over safe limits print what is exceeded and show its value
-	{
+	{		
 		lcd_clear();
-		char flag = 0;				//To print what is exceeded only once
+		
+		/*
+		To print what is exceeded only once,
+		1 for power 
+		2 for voltage 		
+		3 for current
+		4 for error
+		*/
+		char flag = 0;						
+		
 		while(check_thresholds())	//Stay here until over safe limits 
 		{	
 			update_current();
@@ -85,7 +94,7 @@ int main(void)
 			{
 				case 1:				//Power exceeds threshold
 					print_power(1,1);					
-					if(flag)		//To print what is exceeded only once
+					if(flag == 1)		//To print what is exceeded only once
 					break;
 						
 					lcd_string2(2, 1, "Power Exceeded");
@@ -94,20 +103,20 @@ int main(void)
 			
 				case 2:	//Voltage exceeds threshold
 					print_voltage(1,1);
-					if(flag)
+					if(flag == 2)
 					break;
 					
 					lcd_string2(2, 1, "Voltage Exceeded");
-					flag = 1;
+					flag = 2;
 					break;
 			 
 				case 3:	//Current exceeds threshold
 					print_current(1,1);
-					if(flag)
+					if(flag == 3)
 					break;
 					
 					lcd_string2(2, 1, "Current Exceeded");
-					flag = 1;
+					flag = 3;
 					break;
 			
 				default:
@@ -115,7 +124,7 @@ int main(void)
 					break;
 				
 					lcd_string2(1, 6, "Error");
-					flag = 1;
+					flag = 4;
 					break;
 			}
 		}
