@@ -59,7 +59,7 @@ int main(void)
 		update_current();
 		update_voltage();
 		update_power();
-		update_gate_voltage();
+		//update_gate_voltage();
 	
 	if(check_thresholds()==0)		//If under safe limits print everything
 	//if(1)	
@@ -68,7 +68,9 @@ int main(void)
 		print_voltage(1,10);
 		print_power(2,1);
 		//print_gate_voltage(2,10);
-		print_mos_power(2,10);
+		//print_mos_power(2,10);
+		
+		print_fan_status();
 	}
 	else							//If over safe limits print what is exceeded and show its value
 	{		

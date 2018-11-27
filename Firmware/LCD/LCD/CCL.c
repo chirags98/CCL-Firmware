@@ -22,9 +22,10 @@ float power_mos = 0;
 float gate_voltage = 0;
 float offset = 0;
 
-int current_thresh = 1500;
-int v_thresh = 25000;
-int power_thresh = 14000;
+int current_thresh = 2000;
+int v_thresh = 30000;
+int power_thresh = 20000;
+int fan_power_thresh = 5000;
 
 void update_current()
 {
@@ -79,6 +80,33 @@ void print_mos_power(char row, char col)
 	lcd_print4(row, col, power_mos, "mW", "W");
 }
 
+void print_fan_status(void)
+{
+	static char val = 0;	//To create a schmitt trigger like mechanism for power, voltage and current.
+	
+	if (power_mos > fan_power_thresh)
+	{
+		if (val == 0)	//If values are set at the nominal value decrease the values
+		{
+			fan_power_thresh -= 500;
+			val = 1;
+		}
+		
+		lcd_string2(2,10, "Fan On ");
+	}
+	
+	else
+	{
+		if (val == 1)	//If levels during last check was more than threshold - reset threshold to nominal values
+		{
+			fan_power_thresh += 500;
+			val = 0;
+		}
+		
+		lcd_string2(2,10, "Fan Off");
+	}	
+}
+
 char check_thresholds()
 {
 	static char val = 0;	//To create a schmitt trigger like mechanism for power, voltage and current.
@@ -89,7 +117,7 @@ char check_thresholds()
 		if (val == 1)	//If levels during last check was more than threshold - reset threshold to nominal values
 		{
 			power_thresh += 500;
-			v_thresh += 2000;
+			v_thresh += 500;
 			current_thresh += 100;
 			val = 0;	//Values have been reset
 		}
@@ -103,7 +131,7 @@ char check_thresholds()
 		if (val == 0)	//If values are set at the nominal value decrease the values
 		{
 			power_thresh -= 500;
-			v_thresh -= 2000;
+			v_thresh -= 500;
 			current_thresh -= 100;
 			val = 1;	//Values have been decreased
 		}
