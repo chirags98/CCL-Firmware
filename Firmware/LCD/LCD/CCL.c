@@ -19,8 +19,12 @@ float voltage = 0;
 float current = 0;
 float power = 0;
 float power_mos = 0;
+float current_mos = 0;
 float gate_voltage = 0;
 float offset = 0;
+float fan_offset = 134.2;		//Current consumed if the fan is on (If external supply is connected the value is 0)
+
+char fan_status = 0;
 
 int current_thresh = 2000;
 int v_thresh = 30000;
@@ -31,6 +35,11 @@ void update_current()
 {
 	current = avg_read_adc_channel(0, 5);		//0-2A	Least count = 1.95mv
 	current = current*1.953 + 0.3 + offset;		//1.953*(1.0228, 9.57, 1.1054, 1.016,1.0570)
+	
+	current_mos = current;
+	
+	if (fan_status == 1)
+		current = current + fan_offset;
 }
 
 void update_voltage()
@@ -93,6 +102,7 @@ void print_fan_status(void)
 		}
 		
 		lcd_string2(2,10, "Fan On ");
+		fan_status = 1;
 	}
 	
 	else
@@ -104,6 +114,7 @@ void print_fan_status(void)
 		}
 		
 		lcd_string2(2,10, "Fan Off");
+		fan_status = 0;
 	}	
 }
 
@@ -112,7 +123,7 @@ char check_thresholds()
 	static char val = 0;	//To create a schmitt trigger like mechanism for power, voltage and current.
 	
 	//If less than threshold
-	if (current<current_thresh && voltage<v_thresh && power_mos<power_thresh)
+	if (current_mos<current_thresh && voltage<v_thresh && power_mos<power_thresh)
 	{
 		if (val == 1)	//If levels during last check was more than threshold - reset threshold to nominal values
 		{

@@ -40,8 +40,10 @@ int main(void)
 	if (PINB & 0x20)	//Check if external 12v is connected
 	{
 		extern float offset;
+		extern float fan_offset;
 		lcd_string2(2,1,"Supply Connected");
 		offset = 4;
+		fan_offset = 0;
 	}
 	
 	else				//Check if external 12v is NOT connected
